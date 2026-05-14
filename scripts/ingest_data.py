@@ -41,15 +41,23 @@ def load_processed_pages(file_path: str):
     return text_data
 
 
-
-if __name__ == "__main__":
-
+def ingest_documents():
     BASE_DIR = Path(__file__).resolve().parent
-    file_path = BASE_DIR/"../data/processed/budget_speech_text.txt"  #../.. denotes the currents file ups and ups
+    file_path = (BASE_DIR/"../data/processed/budget_speech_text.txt").resolve()  #../.. denotes the currents file ups and ups
 
     data =  load_processed_pages(file_path)
 
+    return data
+
+
+
+if __name__ == "__main__":
+
+    data = ingest_documents()
     # Check result
     print(f"Total pages: {len(data)}")
     print(data[0])
     print(data[-1])
+
+
+    
