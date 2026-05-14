@@ -1,6 +1,6 @@
 #split text and remove the uneccesary words in budget speech
 
-from app.utils.helper import split_nepali_sentences
+from app.utils.splitter import split_nepali_sentences
 from scripts.ingest_data import ingest_documents
 
 text_data = ingest_documents()
@@ -50,9 +50,13 @@ def cleaned_text_data(data, split_fn, clean_fn):
     return cleaned_data
 
 
-cleaned_data = cleaned_text_data(
-    text_data,
-    split_nepali_sentences,
-    is_clean_sentence)
 
-print(cleaned_data[0])
+
+if __name__ == "__main__":
+    
+    cleaned_data = cleaned_text_data(
+        text_data,
+        split_nepali_sentences,
+        is_clean_sentence)
+    #print the data
+    print(cleaned_data[0])
