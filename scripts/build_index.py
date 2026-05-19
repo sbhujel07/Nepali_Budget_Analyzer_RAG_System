@@ -3,9 +3,6 @@
 from app.utils.splitter import split_nepali_sentences
 from scripts.ingest_data import ingest_documents
 
-text_data = ingest_documents()
-
-
 
 REMOVE_KEYWORDS = [
     "सम्माननीय",
@@ -53,7 +50,8 @@ def cleaned_text_data(data, split_fn, clean_fn):
 
 
 if __name__ == "__main__":
-    
+
+    text_data = ingest_documents()
     cleaned_data = cleaned_text_data(
         text_data,
         split_nepali_sentences,
