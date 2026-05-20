@@ -4,7 +4,9 @@ from app.utils.splitter import split_nepali_sentences
 from scripts.ingest_data import ingest_documents
 from processing.keyword_map import keyword_map
 from app.embeddings.topic_embedding_builder import build_topic_embeddings
+from app.embeddings.sentence_embeddings import sentence_embedding_func
 from app.embeddings.model_embeddings import model
+from app.processing.topic_mapper import classify_sentence
 
 
 def build_metadata(
@@ -29,7 +31,8 @@ def build_metadata(
                 sentence,
                 keyword_map,
                 topics_list,
-                topic_embeddings
+                topic_embeddings,
+                sentence_embedding
             )
 
             add_metadata_text.append({
@@ -60,8 +63,6 @@ def build_metadata(
 
 if __name__ == "main":
 
-
-    
     text_data = ingest_documents()
     cleaned_data = cleaned_text_data(
         text_data,
@@ -70,4 +71,6 @@ if __name__ == "main":
 
     
     topic_list,topic_embeddings = build_topic_embeddings(model,keyword_map)
-    add_metadata_text = build_metadata(cleaned_data,)
+    all_sentence,sentence_embeddings = sentence_embedding_func(cleaned_data,model)
+    add_metadata_text = build_metadata(cleaned_data,keyword_map,topic_list,topic_embedding,sentence_embedding)
+    print(add_metadata_text[0])

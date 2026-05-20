@@ -24,8 +24,11 @@ keyword_map = {
 def keyword_matching(sentence, topic, keyword_map):
     """Count how many keywords from a specific topic appear in the sentence"""
     score = 0
+    #check if topic is in keyword map 
     if topic in keyword_map:
+        #calc the values of topic
         for keyword in keyword_map[topic]:
+            #check if values in sentence
             if keyword in sentence:
                 score += 1
     return score
