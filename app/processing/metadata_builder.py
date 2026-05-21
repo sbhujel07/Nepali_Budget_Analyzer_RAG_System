@@ -2,7 +2,7 @@
 from scripts.build_index import cleaned_text_data,is_clean_sentence
 from app.utils.splitter import split_nepali_sentences
 from scripts.ingest_data import ingest_documents
-from processing.keyword_map import keyword_map
+from app.processing.keyword_map import keyword_map
 from app.embeddings.topic_embedding_builder import build_topic_embeddings
 from app.embeddings.sentence_embeddings import sentence_embedding_func
 from app.embeddings.model_embeddings import model
@@ -13,19 +13,23 @@ def build_metadata(
     cleaned_text_data,
     keyword_map,
     topics_list,
-    topic_embeddings
+    topic_embeddings,
+    sentence_embeddings
 ):
 
     add_metadata_text = []
+    #pointer for mapping embeddings
+    idx = 0
 
     for item in cleaned_text_data:
 
         page = item["Page_number"]
-
-        sentences = item["Sentences"]
+        sentences = item["Sentences"] 
 
         for i, sentence in enumerate(sentences):
 
+            sentence_embedding = sentence_embeddings[idx]
+            idx += 1
             # classify topic
             topic, score = classify_sentence(
                 sentence,
@@ -38,30 +42,24 @@ def build_metadata(
             add_metadata_text.append({
 
                 "text": sentence,
-
                 "metadata": {
 
                     "page": page,
-
                     "sentence_id":
                         f"p{page}_s{i+1}",
-
-                    "language": "ne",
-
-                    "source":
+                        "language": "ne",
+                        "source":
                         "Budget Report 2081",
-
-                    "topics": topic,
-
-                    "scores":
+                        "topics": topic,
+                        "scores":
                         round(score, 3)
-                }
+                        }
             })
 
     return add_metadata_text
 
 
-if __name__ == "main":
+if __name__ == "__main__":
 
     text_data = ingest_documents()
     cleaned_data = cleaned_text_data(
@@ -72,5 +70,5 @@ if __name__ == "main":
     
     topic_list,topic_embeddings = build_topic_embeddings(model,keyword_map)
     all_sentence,sentence_embeddings = sentence_embedding_func(cleaned_data,model)
-    add_metadata_text = build_metadata(cleaned_data,keyword_map,topic_list,topic_embedding,sentence_embedding)
+    add_metadata_text = build_metadata(cleaned_data,keyword_map,topic_list,topic_embeddings,sentence_embeddings)
     print(add_metadata_text[0])

@@ -13,4 +13,4 @@ def build_topic_embeddings(keyword_map, model):
 
     topics_list = list(keyword_map.keys())
 
-    return topics_list, embeddings
+    return topics_list, topic_embeddings
