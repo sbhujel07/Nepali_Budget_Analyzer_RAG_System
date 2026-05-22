@@ -23,8 +23,8 @@ def build_metadata(
 
     for item in cleaned_text_data:
 
-        page = item["Page_number"]
-        sentences = item["Sentences"] 
+        page = item["page_number"]
+        sentences = item["sentences"] 
 
         for i, sentence in enumerate(sentences):
 
@@ -71,4 +71,4 @@ if __name__ == "__main__":
     topic_list,topic_embeddings = build_topic_embeddings(model,keyword_map)
     all_sentence,sentence_embeddings = sentence_embedding_func(cleaned_data,model)
     add_metadata_text = build_metadata(cleaned_data,keyword_map,topic_list,topic_embeddings,sentence_embeddings)
-    print(add_metadata_text[0])
+    print(add_metadata_text[1])
