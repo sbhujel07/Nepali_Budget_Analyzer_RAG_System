@@ -7,6 +7,8 @@ from app.embeddings.topic_embedding_builder import build_topic_embeddings
 from app.embeddings.sentence_embeddings import sentence_embedding_func
 from app.embeddings.model_embeddings import model
 from app.processing.topic_mapper import classify_sentence
+from app.processing.metadata_cleaner import clean_metadata
+import json
 
 
 def build_metadata(
@@ -72,3 +74,18 @@ if __name__ == "__main__":
     all_sentence,sentence_embeddings = sentence_embedding_func(cleaned_data,model)
     add_metadata_text = build_metadata(cleaned_data,keyword_map,topic_list,topic_embeddings,sentence_embeddings)
     print(add_metadata_text[1])
+
+    #clean the metadata
+    
+    MIN_SCORE       = 0.20
+    MIN_TEXT_LEN    = 15
+    GARBAGE_TOKENS  = {"0 0", "0?", "॥०॥", "0० 0", "०?", "0 0 0"}
+
+    cleaned_metadata = clean_metadata(add_metadata_text,MIN_SCORE,MIN_TEXT_LEN,GARBAGE_TOKENS)
+
+    #now save to text file 
+    with open("cleaned_budget_2081.json", "w", encoding="utf-8") as f:
+        json.dump(cleaned_data, f, ensure_ascii=False, indent=2)
+
+    print(" Saved to cleaned_budget_2081.json")
+
