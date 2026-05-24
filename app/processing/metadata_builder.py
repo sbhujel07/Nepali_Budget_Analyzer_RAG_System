@@ -84,8 +84,11 @@ if __name__ == "__main__":
     cleaned_metadata = clean_metadata(add_metadata_text,MIN_SCORE,MIN_TEXT_LEN,GARBAGE_TOKENS)
 
     #now save to text file 
-    with open("cleaned_budget_2081.json", "w", encoding="utf-8") as f:
-        json.dump(cleaned_data, f, ensure_ascii=False, indent=2)
+    #file path to save
+    output_path = "data/processed/cleaned_budget_2081.2.json"
 
-    print(" Saved to cleaned_budget_2081.json")
+    with open(output_path, "w", encoding="utf-8") as f:
+        json.dump(cleaned_metadata, f, ensure_ascii=False, indent=2)
+
+    print(f"file Saved to {output_path}")
 
