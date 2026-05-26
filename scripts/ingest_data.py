@@ -1,6 +1,7 @@
 # load + chunk documents
 import re
 from pathlib import Path
+from config.config import BUDGET_SPEECH_FILE
 
 def clean_text(text):
     # remove page markers like --- Page 1 ---
@@ -25,6 +26,10 @@ def clean_text(text):
 
 
 def load_processed_pages(file_path: str):
+
+    if not Path(file_path).exists():
+        raise FileNotFoundError(f"File not found: {file_path}")
+
     with open(file_path, 'r', encoding='utf-8') as f:
         content = f.read()
 
@@ -42,12 +47,9 @@ def load_processed_pages(file_path: str):
 
 
 def ingest_documents():
-    BASE_DIR = Path(__file__).resolve().parent
-    file_path = (BASE_DIR/"../data/processed/budget_speech_text.txt").resolve()  #../.. denotes the currents file ups and ups
 
-    data =  load_processed_pages(file_path)
+    return  load_processed_pages(BUDGET_SPEECH_FILE)
 
-    return data
 
 
 
