@@ -2,6 +2,8 @@
 
 import json
 from collections import defaultdict
+from config.config import CLEAN_BUDGET_DATA
+from config.config import CHUNKS_FILE
 
 
 def read_file(file):
@@ -79,8 +81,8 @@ def save_to_json(file_path,data):
 
 if __name__ == "__main__" :
     
-    file_path = "data/processed/cleaned_budget_data_2081.json"
-    read_file_data = read_file(file_path)
+
+    read_file_data = read_file(CLEAN_BUDGET_DATA)
     topic_map = group_by_topic(read_file_data)
 
     # print(topic_map)
@@ -96,8 +98,8 @@ if __name__ == "__main__" :
     # print(len(filtered_chunks))
 
     #save filtered_chunk to file for the accessibility
-    file_path = "data/processed/final_chunks_2081.json"
-    save_to_json(file_path,filtered_chunks)
+    # file_path = "data/processed/final_chunks_2081.json"
+    save_to_json(CHUNKS_FILE,filtered_chunks)
 
    
 

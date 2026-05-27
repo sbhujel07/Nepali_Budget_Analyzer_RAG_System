@@ -9,6 +9,7 @@ from app.embeddings.model_embeddings import model
 from app.processing.topic_mapper import classify_sentence
 from app.processing.metadata_cleaner import clean_metadata
 import json
+from config.config import CLEAN_BUDGET_DATA
 
 
 def build_metadata(
@@ -85,10 +86,9 @@ if __name__ == "__main__":
 
     #now save to text file 
     #file path to save
-    output_path = "data/processed/cleaned_budget_data_2081.json"
 
-    with open(output_path, "w", encoding="utf-8") as f:
+    with open(CLEAN_BUDGET_DATA, "w", encoding="utf-8") as f:
         json.dump(cleaned_metadata, f, ensure_ascii=False, indent=2)
 
-    print(f"file Saved to {output_path}")
+    print(f"file Saved to {CLEAN_BUDGET_DATA}")
 

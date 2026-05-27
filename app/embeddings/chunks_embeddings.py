@@ -1,6 +1,8 @@
 
 import json
-from  app.embeddings.model_embeddings import model
+from app.embeddings.model_embeddings import model
+from config.config import CHUNKS_FILE
+from config.config import CHUNKS_EMBEDDINGS
 
 
 #read the chunking from chunk json
@@ -31,14 +33,14 @@ def save_vectors_to_json(file,data):
 
 
 if __name__ == "__main__" :
-    file_path = "data/processed/final_chunks_2081.json"
-    chunks = read_chunks(file_path)
+    # file_path = "data/processed/final_chunks_2081.json"
+    chunks = read_chunks(CHUNKS_FILE)
     chunks_embedding = chunk_embeds(chunks,model)
     # print(chunks_embedding[1])
 
     #now save vector to the json file
-    file_to_save = "data/processed/chunks_embeddings.json"
-    save_vectors_to_json(file_to_save,chunks_embedding)
+    # file_to_save = "data/processed/chunks_embeddings.json"
+    save_vectors_to_json(CHUNKS_EMBEDDINGS,chunks_embedding)
 
 
 
