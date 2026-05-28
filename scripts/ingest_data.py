@@ -1,7 +1,12 @@
 # load + chunk documents
 import re
+import logging
 from pathlib import Path
 from config.config import BUDGET_SPEECH_FILE
+from config.logging_config import setup_logging
+
+#initialize the logger
+logger = logging.getLogger(__name__)
 
 def clean_text(text):
     # remove page markers like --- Page 1 ---
@@ -23,13 +28,13 @@ def clean_text(text):
 
 
 
-
-
 def load_processed_pages(file_path: str):
 
     if not Path(file_path).exists():
+        logging.error(f"file not found: {file_path}")
         raise FileNotFoundError(f"File not found: {file_path}")
 
+    logger.info(f"loading the file: {file_path}")
     with open(file_path, 'r', encoding='utf-8') as f:
         content = f.read()
 
@@ -42,7 +47,7 @@ def load_processed_pages(file_path: str):
             "page_number": int(page_num),
             "text": clean_text(page_text)
         })
-
+    logger.info(f"Loaded {len(text_data)} pages.")
     return text_data
 
 
@@ -55,8 +60,10 @@ def ingest_documents():
 
 if __name__ == "__main__":
 
+    setup_logging() #initialize the logging func
+    logger.info("Starting document ingestion ")
     data = ingest_documents()
-    # Check result
+    ## Check result
     print(f"Total pages: {len(data)}")
     print(data[0])
     print(data[-1])
