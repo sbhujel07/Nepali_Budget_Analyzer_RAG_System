@@ -1,8 +1,9 @@
 # load + chunk documents
 import re
 import logging
+import json
 from pathlib import Path
-from config.config import BUDGET_SPEECH_FILE
+from config.config import BUDGET_SPEECH_FILE,BUDGET_SPEECH_JSON_FILE
 from config.logging_config import setup_logging
 
 #initialize the logger
@@ -50,6 +51,12 @@ def load_processed_pages(file_path: str):
     logger.info(f"Loaded {len(text_data)} pages.")
     return text_data
 
+def save_loaded_file(file,data):
+    with open(file,"w",encoding="utf-8") as f:
+        json.dump(data,f,ensure_ascii=False,indent=2)
+    print(f"successfuly saved the file: {file}")
+
+
 
 def ingest_documents():
 
@@ -62,11 +69,14 @@ if __name__ == "__main__":
 
     setup_logging() #initialize the logging func
     logger.info("Starting document ingestion ")
-    data = ingest_documents()
+    ingest_data = ingest_documents()
+
+    #save to file
+    save_loaded_file(BUDGET_SPEECH_JSON_FILE,ingest_data)
     ## Check result
-    print(f"Total pages: {len(data)}")
-    print(data[0])
-    print(data[-1])
+    print(f"Total pages: {len(ingest_data)}")
+    print(ingest_data[0])
+    print(ingest_data[-1])
 
 
     

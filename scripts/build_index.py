@@ -1,7 +1,8 @@
 #split text and remove the uneccesary words in budget speech
 import logging
+import json
 from app.utils.splitter import split_nepali_sentences
-from scripts.ingest_data import ingest_documents
+from config.config import BUDGET_SPEECH_JSON_FILE
 from config.logging_config import setup_logging
 
 
@@ -24,14 +25,13 @@ def is_clean_sentence(sentence):
     return True
 
 
-def cleaned_and_add_metadata( split_fn, clean_fn):
+def cleaned_and_add_metadata( data,split_fn, clean_fn):
     """
     Splits sentences, removes unwanted ones, and enriches metadata.
     """
     logger.info("Started builder Pipeline")
     cleaned_data = []
 
-    data = ingest_documents()
 
     for item in data:
 
@@ -52,6 +52,13 @@ def cleaned_and_add_metadata( split_fn, clean_fn):
 
     return cleaned_data
 
+def read_file(file):
+    logger.info(f"Reading the file: {file}")
+    with open(file,"r",encoding="utf-8") as f:
+        data =  json.load(f)
+    logger.info("completed reading")
+    return data
+
 
 
 
@@ -60,7 +67,11 @@ if __name__ == "__main__":
     setup_logging() #initialize the logging func
     logger = logging.getLogger(__name__)
 
+    #reading file 
+    text_data = read_file(BUDGET_SPEECH_JSON_FILE)
+
     cleaned_data = cleaned_and_add_metadata(
+        text_data,
         split_nepali_sentences,
         is_clean_sentence)
     #print the data
