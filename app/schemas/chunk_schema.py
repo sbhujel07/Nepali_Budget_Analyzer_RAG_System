@@ -14,6 +14,7 @@ def read_file(file):
 
 
 #सबै sentences लाई उनीहरूको topic अनुसार छुट्याएर groups बनाउँछ
+##Topic Map
 
 def group_by_topic(data):
     topic_map = defaultdict(list)
