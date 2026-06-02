@@ -3,12 +3,6 @@
 
 import json
 from collections import defaultdict
-from config.config import CHUNKS_EMBEDDINGS
-
-def read_file(file):
-    with open(file,"r",encoding="utf-8") as f:
-        data = json.load(f)
-    return data
 
 def group_by_topic(data):
     topic_map = defaultdict(list)
@@ -33,10 +27,4 @@ def group_by_topic(data):
 #   "health": [doc2],
 #   "education": [doc4]
 #     }
-
-
-if __name__ == "__main__" :
-    chunk_file = read_file(CHUNKS_EMBEDDINGS)
-    topic_map = group_by_topic(chunk_file)
-    #print
 
