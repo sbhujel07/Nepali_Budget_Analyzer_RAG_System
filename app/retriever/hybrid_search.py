@@ -1,4 +1,5 @@
 import json
+import faiss
 import numpy as np
 from app.retriever.topic_map import group_by_topic
 from config.config import CHUNKS_EMBEDDINGS
@@ -31,7 +32,7 @@ def hybrid_search(user_query,topic_map,model,top_k=5,alpha=0.5):
 
 
     #Faisss Search
-    index = build_faiss(docs)
+    index = faiss.read_index(f"indexes/{topic}.faiss")
 
     user_query_vector = model.encode([user_query]).astype("float32")
     
