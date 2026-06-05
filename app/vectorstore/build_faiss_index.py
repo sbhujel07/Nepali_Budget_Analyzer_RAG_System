@@ -14,6 +14,10 @@ if __name__ == "__main__" :
     chunks = read_file(CHUNKS_EMBEDDINGS)
     topic_map = group_by_topic(chunks)
 
+    #Save Topic_map also 
+    with open("indexes/topic_map.json","w",encoding="utf-8") as f:
+        json.dump(topic_map,f,ensure_ascii=False)
+
     #save index of faiss according to topic
     for topic,docs in topic_map.items():
         build_faiss(
