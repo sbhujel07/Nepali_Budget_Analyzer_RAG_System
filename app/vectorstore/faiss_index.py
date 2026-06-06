@@ -10,4 +10,6 @@ def build_faiss(docs,save_file):
 
     #save index
     faiss.write_index(index,save_file)
+
+    print(f"Saved the faiss indexes in {save_file}")
     return index

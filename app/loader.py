@@ -15,3 +15,6 @@ for topic in TOPIC_MAP.keys():
     )
 
 print("All index loaded")
+
+
+#load Bm25 

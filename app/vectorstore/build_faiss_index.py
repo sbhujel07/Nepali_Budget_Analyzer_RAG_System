@@ -2,6 +2,7 @@ import json
 from config.config import CHUNKS_EMBEDDINGS
 from app.retriever.topic_map import group_by_topic
 from app.vectorstore.faiss_index import build_faiss
+from app.retriever.bm25 import build_bm25
 
 
 def read_file(file):
@@ -20,11 +21,21 @@ if __name__ == "__main__" :
 
     #save index of faiss according to topic
     for topic,docs in topic_map.items():
+        #save faiss
         build_faiss(
             docs,f"indexes/{topic}.faiss"
         )
 
-        
+        #save the Bm25 search also
+        build_bm25(
+            docs,f"indexes/{topic}.bm25.pkl"
+        )
+
+
+
+
+
+
     ##Just for check if topic map is correct
     # print(type(topic_map))
     # print(len(topic_map))
