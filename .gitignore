@@ -78,3 +78,12 @@ build/
 dist/
 *.egg-info/
 .cache/
+
+# FAISS index
+*.index
+faiss.index
+
+# embeddings / data dumps
+*.npy
+*.pkl
+*.json

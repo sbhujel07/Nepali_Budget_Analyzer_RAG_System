@@ -23,3 +23,15 @@ if __name__ == "__main__" :
         build_faiss(
             docs,f"indexes/{topic}.faiss"
         )
+
+        
+    ##Just for check if topic map is correct
+    # print(type(topic_map))
+    # print(len(topic_map))
+
+    # for k in list(topic_map.keys())[:5]:
+    #     print(k)
+
+    # with open("indexes/topic_map.json","r",encoding="utf-8") as f:
+    #     data = json.load(f)
+    # print(data.keys())

@@ -8,17 +8,17 @@ def group_by_topic(data):
     topic_map = defaultdict(list)
 
     for item in data:
-        topics = item["metadata"].get("topic",[])
+        topics = item["metadata"].get("topic","other")
 
-        #if there are no topics
-        if len(topics) == 0:
-            topic = "other"
-        else:
-            topic = topics[0]  #Primary topics
+        # #if there are no topics
+        # if len(topics) == 0:
+        #     topic = "other"
+        # else:
+        #     topic = topics[0]  #Primary topics
 
-        topic_map[topic].append(item)
+        topic_map[topics].append(item)
 
-    return topic_map
+    return dict(topic_map)
 
 
 ##after this output topic map be like :
