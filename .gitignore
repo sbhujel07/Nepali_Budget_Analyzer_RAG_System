@@ -80,8 +80,8 @@ dist/
 .cache/
 
 # FAISS index
+*.faiss
 *.index
-faiss.index
 
 # embeddings / data dumps
 *.npy
