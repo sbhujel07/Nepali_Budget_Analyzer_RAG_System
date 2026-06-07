@@ -82,7 +82,7 @@ dist/
 # FAISS index
 *.faiss
 *.index
-
+com
 # embeddings / data dumps
 *.npy
 *.pkl

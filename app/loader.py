@@ -1,5 +1,6 @@
 import json 
 import faiss 
+import pickle
 
 #load topic map
 with open("indexes/topic_map.json","r",encoding="utf-8") as f:
@@ -14,7 +15,23 @@ for topic in TOPIC_MAP.keys():
         f"indexes/{topic}.faiss"
     )
 
-print("All index loaded")
+print("All faiss index loaded")
 
 
 #load Bm25 
+BM25_INDEX = {}
+
+for topic in TOPIC_MAP.keys():
+    with open(f"indexes/{topic}.bm25.pkl","rb")as f:
+        BM25_INDEX[topic] = pickle.load(f)
+
+print("All bm25 index loaded")
+
+
+
+# yesto hunxa output =>
+# BM25_INDEX = {
+#     "अर्थतन्त्र": <BM25Okapi object>,
+#     "कृषि": <BM25Okapi object>,
+#     "शिक्षा": <BM25Okapi object>,
+# }
