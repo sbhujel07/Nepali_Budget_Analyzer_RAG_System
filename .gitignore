@@ -87,3 +87,6 @@ faiss.index
 *.npy
 *.pkl
 *.json
+
+# BM25 files inside indexes
+indexes/*.bm25.pkl
