@@ -6,6 +6,8 @@ import pickle
 with open("indexes/topic_map.json","r",encoding="utf-8") as f:
     TOPIC_MAP = json.load(f)
 
+GLOBAL_DOCS = [item for docs in  TOPIC_MAP.values() for item in docs] 
+
 
 #load faiss indexes
 FAISS_INDEX = {}

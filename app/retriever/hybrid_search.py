@@ -4,7 +4,7 @@ import numpy as np
 from app.embeddings.model_embeddings import model
 from app.retriever.topic_detect import detect_topic
 
-from app.loader import TOPIC_MAP,FAISS_INDEX,BM25_INDEX
+from app.loader import TOPIC_MAP,FAISS_INDEX,BM25_INDEX,GLOBAL_DOCS
 
 #Now hybrid Search bm25 + Faiss
 def hybrid_search(user_query,model,top_k=5,alpha=0.5):
@@ -15,39 +15,18 @@ def hybrid_search(user_query,model,top_k=5,alpha=0.5):
     topic = detect_topic(user_query,TOPIC_MAP)
     print("Detected Topic:", topic)
     
-    #gets the document of that topic (tyo topic ko sabai documents ligxa)
-    topic_docs = TOPIC_MAP.get(topic,[])  #if that topic vetyo vani chai value dinxa
-    
-
-    #Build global docs
-    #global docs ma topic_map को nested lists लाई flatten गरेर single list बनाउँछ like this  global_docs = [item1, item2, item3, item4, item5]
-    global_docs = [item for docs in TOPIC_MAP.values() for item in docs] 
-
-    ##Candidate selection 
-    if len(topic_docs) == 0:
-        Candidates = global_docs
+    if topic == "other" or topic not in TOPIC_MAP:
+        #fallback to global
+        docs = GLOBAL_DOCS
+        bm25 = BM25_INDEX["global"]
+        index = FAISS_INDEX["global"]
 
     else:
-        #combine topic docs + global_docs since sometimes multitopics in user query
-        Candidates = topic_docs + global_docs
-    
-    #remove duplicate in candidates
-    seen = set()
-    unique_candidates = []
+        docs = TOPIC_MAP[topic]
+        bm25 = BM25_INDEX[topic]
+        index = FAISS_INDEX[topic]
 
-    for doc in Candidates:
-        key = doc["text"]
-        if key not in seen:
-            unique_candidates.append(doc)
-            seen.add(key)
-    docs = unique_candidates
-    if len(docs)== 0:
-        print("Cannot find documents.")
-        return []
-
-    #BM25 search ,already loaded so
-    bm25 = BM25_INDEX.get(docs)
-    
+    #bm25 search
     tokenized_query = user_query.split()
     bm25_score = bm25.get_scores(tokenized_query)
 
@@ -59,7 +38,6 @@ def hybrid_search(user_query,model,top_k=5,alpha=0.5):
 
 
     #Faisss Search
-    index = FAISS_INDEX.get(docs)
 
     user_query_vector = model.encode([user_query]).astype("float32")
     
