@@ -15,8 +15,12 @@ for topic in TOPIC_MAP.keys():
         f"indexes/{topic}.faiss"
     )
 
-print("All faiss index loaded")
+#global faiss index
+FAISS_INDEX["global"] = faiss.read_index(
+    "indexes/global.faiss"
+)
 
+print("All faiss index loaded")
 
 #load Bm25 
 BM25_INDEX = {}
@@ -24,6 +28,10 @@ BM25_INDEX = {}
 for topic in TOPIC_MAP.keys():
     with open(f"indexes/{topic}.bm25.pkl","rb")as f:
         BM25_INDEX[topic] = pickle.load(f)
+
+#global bm25 index
+with open("indexes/global.bm25.pkl","rb") as f:
+    BM25_INDEX["global"] = pickle.load(f)
 
 print("All bm25 index loaded")
 

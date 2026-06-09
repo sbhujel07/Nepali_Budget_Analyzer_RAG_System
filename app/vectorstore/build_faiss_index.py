@@ -17,7 +17,10 @@ if __name__ == "__main__" :
 
     #Save Topic_map also 
     with open("indexes/topic_map.json","w",encoding="utf-8") as f:
-        json.dump(topic_map,f,ensure_ascii=False)
+        json.dump(topic_map,f,ensure_ascii=False,indent=2)
+
+    #yeuta global docs banauney jasma topic map ko sab values list ma store garney ani global faiss index and global bm25 index banauney
+    global_docs = [item for docs in  topic_map.values() for item in docs] 
 
     #save index of faiss according to topic
     for topic,docs in topic_map.items():
@@ -31,6 +34,11 @@ if __name__ == "__main__" :
             docs,f"indexes/{topic}.bm25.pkl"
         )
 
+    #build global faiss and bm25 index
+    build_faiss(global_docs,"indexes/global.faiss")
+    build_bm25(global_docs,"indexes/global.bm25.pkl")
+
+    print("All index built successfully!")
 
 
 

@@ -27,4 +27,3 @@ def group_by_topic(data):
 #   "health": [doc2],
 #   "education": [doc4]
 #     }
-
