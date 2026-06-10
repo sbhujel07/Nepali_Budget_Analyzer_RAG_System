@@ -11,8 +11,9 @@ def main():
     while True:
         user_query = input(f"\n {session_id}:  ")
 
-        if user_query.lower in ["exit","quit"]:
+        if user_query.lower() in ["exit","quit"]:
             print("Thankyou! GoodDay")
+            break
 
         else:
             response = rag_pipeline(user_query,session_id)
