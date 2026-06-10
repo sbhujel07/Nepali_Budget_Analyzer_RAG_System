@@ -7,7 +7,7 @@ from app.retriever.topic_detect import detect_topic
 from app.loader import TOPIC_MAP,FAISS_INDEX,BM25_INDEX,GLOBAL_DOCS
 
 #Now hybrid Search bm25 + Faiss
-def hybrid_search(user_query,model,top_k=5,alpha=0.5):
+def hybrid_search(user_query,top_k=5,alpha=0.5):
     print("\n================ HYBRID SEARCH START ================")
     print("Query:", user_query)
 
@@ -71,7 +71,7 @@ def hybrid_search(user_query,model,top_k=5,alpha=0.5):
 if __name__ == "__main__":
 
     user_query = "आगामी आर्थिक वर्षको लागि अनुमान गरिएको कुल सरकारी खर्च (बजेटको कुल आकार) कति हो र त्यसमध्ये चालु खर्चको हिस्सा कति प्रतिशत छ?"
-    retrieve_chunk = hybrid_search(user_query,model)
+    retrieve_chunk = hybrid_search(user_query)
 
     #print the retrieve chunks
     for item in retrieve_chunk:

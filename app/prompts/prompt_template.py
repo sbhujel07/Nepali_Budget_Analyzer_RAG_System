@@ -21,8 +21,6 @@ STYLE:
     Context: 
     {context}
 
-    Question: {user_query}
-
     Answer:
         """
     return base_prompt
