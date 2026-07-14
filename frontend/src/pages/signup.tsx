@@ -1,16 +1,29 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import toast from "react-hot-toast";
 import "../styles/auth.css";
 
 export default function Signup() {
+  const navigate = useNavigate();
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const handleSignup = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    toast.success("Account created successfully!");
+
+    setTimeout(() => {
+      navigate("/login");
+    }, 2000);
+  };
 
   return (
     <div className="container">
       <div className="login-box">
-        <form>
+        <form onSubmit={handleSignup}>
           <div className="input-group">
             <label>Full Name</label>
             <input
