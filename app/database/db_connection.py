@@ -19,10 +19,10 @@ Sessionlocal = sessionmaker(
 #this is base class,database know creating tables,columns and rows inside tables through this
 Base = declarative_base()
 
-async def test_connection():
-    async with engine.connect() as conn:
-        print("Database connected successfully")
-
-
-if __name__ == "__main__" :
-   asyncio.run(test_connection())
+#database session
+async def get_db():
+    #establish a db session
+    #query garna ko lagi db session connection chahinxa so we need session
+    async with SessionLocal() as session:
+        #route and end session using yield
+        yield session
