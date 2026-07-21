@@ -27,8 +27,9 @@ from fastapi import FastAPI, Depends,HTTPException
 from sqlalchemy import select
 import httpx
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.database.db_connection import Base,get_db
+from app.database.db_connection import Base,get_db,engine,Sessionlocal
 from app.api.auth import router as auth_router
+from app.database.schemas import UserCreate
 
 
 app = FastAPI()
