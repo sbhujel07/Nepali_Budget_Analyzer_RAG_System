@@ -30,10 +30,22 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.database.db_connection import Base,get_db,engine,Sessionlocal
 from app.api.auth import router as auth_router
 from app.database.schemas import UserCreate
-
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
+#for the access not to be blocked when sending request from frontend to backend 
+app.add_middleware(
+    CORSMiddleware,
+    #for frontend request
+    allow_origins =  "http://localhost:5174",
+                   
+    #for cookies and all
+    allow_credentials = True,
+    #for https methods post,get etc
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 #create startup
 @app.on_event("startup")

@@ -90,3 +90,9 @@ com
 
 # BM25 files inside indexes
 indexes/*.bm25.pkl
+
+
+#node module
+node_modules/
+dist/
+.env

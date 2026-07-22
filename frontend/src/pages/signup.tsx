@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
@@ -17,19 +18,35 @@ export default function Signup() {
     confirmPassword: "",
   });
 
-  const handleSignup = (e: React.FormEvent) => {
+  const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (formData.password !== formData.confirmPassword) {
+    toast.error("Passwords do not match");
+    return;
+  }
 
-    console.log(formData);
+  try {
+    const response = await axios.post(
+      "http://localhost:8000/auth/signup",
+      {
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+      }
+    );
 
-    // अहिले backend connect गरेको छैन
-    toast.success("Account created successfully!");
+    toast.success(response.data.message);
 
     setTimeout(() => {
       navigate("/login");
     }, 2000);
-  };
 
+  } catch (error: any) {
+    toast.error(
+      error.response?.data?.detail || "Signup failed"
+    );
+  }
+};
   return (
     <div className="container">
       <div className="login-box">
