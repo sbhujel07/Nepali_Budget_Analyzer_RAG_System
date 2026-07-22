@@ -10,9 +10,19 @@ export default function Signup() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
   const handleSignup = (e: React.FormEvent) => {
     e.preventDefault();
 
+    console.log(formData);
+
+    // अहिले backend connect गरेको छैन
     toast.success("Account created successfully!");
 
     setTimeout(() => {
@@ -29,6 +39,13 @@ export default function Signup() {
             <input
               type="text"
               placeholder="Enter your full name"
+              value={formData.name}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  name: e.target.value,
+                })
+              }
             />
           </div>
 
@@ -37,6 +54,13 @@ export default function Signup() {
             <input
               type="email"
               placeholder="Enter your email"
+              value={formData.email}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  email: e.target.value,
+                })
+              }
             />
           </div>
 
@@ -47,6 +71,13 @@ export default function Signup() {
               <input
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter your password"
+                value={formData.password}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    password: e.target.value,
+                  })
+                }
               />
 
               <button
@@ -66,6 +97,13 @@ export default function Signup() {
               <input
                 type={showConfirmPassword ? "text" : "password"}
                 placeholder="Confirm your password"
+                value={formData.confirmPassword}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    confirmPassword: e.target.value,
+                  })
+                }
               />
 
               <button

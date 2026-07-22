@@ -1,6 +1,8 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.database.schemas import SignupRequest,LoginRequest
-from app.database.hashing import hash_password
+from app.database.hashing import hashed_password
+from app.database.tables import User
+from sqlalchemy import select
 from fastapi import HTTPException
 
 
@@ -18,9 +20,9 @@ async def signup_user(request: SignupRequest, db: AsyncSession):
 
 
     #hash the password
-    hashed_password = hash_password(request.password)
+    hash_password = hashed_password(request.password)
 
-    new_user = User(name=request.name,email=request.email,hash_password=hashed_password)
+    new_user = User(name=request.name,email=request.email,hashed_password=hash_password)
     #save to db
     db.add(new_user)
     await db.commit()

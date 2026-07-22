@@ -23,6 +23,6 @@ Base = declarative_base()
 async def get_db():
     #establish a db session
     #query garna ko lagi db session connection chahinxa so we need session
-    async with SessionLocal() as session:
+    async with Sessionlocal() as session:
         #route and end session using yield
         yield session

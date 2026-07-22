@@ -9,7 +9,7 @@ pwd_context = CryptContext(
 )
 
 # hash password from plain text to encrypt
-def hash_password(password: str)  -> str:
+def hashed_password(password: str)  -> str:
     return pwd_context.hash(password)
 
 #change hasing pw to plain and verify
