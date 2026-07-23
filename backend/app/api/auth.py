@@ -17,3 +17,12 @@ async def signup(
     db: AsyncSession = Depends(get_db)
 ):
     return await signup_user(request, db)
+
+
+
+@router.post("/login")
+async def login(
+    request: LoginRequest,
+    db: AsyncSession = Depends(get_db)
+):
+    return await login_user(request,db)
