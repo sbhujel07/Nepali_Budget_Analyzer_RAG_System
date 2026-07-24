@@ -29,6 +29,7 @@ import httpx
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.database.db_connection import Base,get_db,engine,Sessionlocal
 from app.api.auth import router as auth_router
+from app.api.auth import signup_user,login_user
 from app.database.schemas import UserCreate
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -67,6 +68,8 @@ async def create_user(user: UserCreate,db: AsyncSession = Depends(get_db)):
     return new_user
 
 
-
+#auth router
 app.include_router(auth_router)
+
+
 

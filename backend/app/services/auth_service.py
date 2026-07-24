@@ -1,6 +1,7 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.database.schemas import SignupRequest,LoginRequest
 from app.database.hashing import hashed_password,verify_password
+from app.services.jwt_handler import create_access_token
 from app.database.tables import User
 from sqlalchemy import select
 from fastapi import HTTPException
@@ -34,9 +35,9 @@ async def signup_user(request: SignupRequest, db: AsyncSession):
 
 async def login_user(request: LoginRequest,db: AsyncSession):
     #verify email from user and select all if email is already signup
-    user = await db.execute(select(User).where(User.email == request.email))
-    valid_email = user.scalar_one_or_none()
-    if valid_email is None:
+    result = await db.execute(select(User).where(User.email == request.email))
+    user = result.scalar_one_or_none()
+    if user is None:
         raise HTTPException(
             status_code=401,
             detail="Invalid email or password"
@@ -49,5 +50,11 @@ async def login_user(request: LoginRequest,db: AsyncSession):
             status_code=401,
             detail="Invalid email or password"
         )
-
     
+    #create access token
+    access_token = create_access_token(data={"sub": user.email})
+    return {
+        "message": "Login successful",
+        "access_token": access_token,
+        "token_type": "bearer"
+    }
