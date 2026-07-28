@@ -1,5 +1,6 @@
 from datetime import datetime,date,timezone,timedelta
 from app.setting import SECRET_KEY,ALGORITHM,ACCESS_TOKEN_EXPIRE_MINUTES
+from fastapi.security import OAuth2PasswordBearer
 from jose import jwt
 
 def create_access_token(data: dict):
@@ -13,3 +14,5 @@ def create_access_token(data: dict):
     #here generate access key using the secret key algorithm and expiry time
     encoded_jwt = jwt.encode(to_encode,SECRET_KEY,algorithm=ALGORITHM)
     return encoded_jwt
+
+
