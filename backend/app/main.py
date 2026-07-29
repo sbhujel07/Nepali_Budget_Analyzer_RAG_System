@@ -29,6 +29,7 @@ import httpx
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.database.db_connection import Base,get_db,engine,Sessionlocal
 from app.api.auth import router as auth_router
+from app.api.chat import router as chat_router
 from app.api.users import router as user_router
 from app.api.auth import signup_user,login_user
 from app.database.schemas import UserCreate
@@ -61,6 +62,9 @@ app.include_router(user_router)
 
 #auth router
 app.include_router(auth_router)
+
+#chat router
+app.include_router(chat_router)
 
 
 

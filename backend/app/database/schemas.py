@@ -30,3 +30,11 @@ class LoginRequest(BaseModel):
     email: EmailStr
     password: str
 
+#input chat request
+class ChatRequest(BaseModel):
+    question: str
+
+
+#output chat request
+class ChatResponse(BaseModel):
+    answer: str
