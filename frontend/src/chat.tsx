@@ -1,12 +1,12 @@
 import { useState } from "react";
 import axios from "axios";
 
-import Sidebar from "../components/Sidebar";
-import Navbar from "../components/Navbar";
-import Welcome from "../components/Welcome";
-import PromptCards from "../components/PromptCards";
-import ChatArea from "../components/ChatArea";
-import ChatInput from "../components/ChatInput";
+import Sidebar from "./components/Sidebar";
+import Navbar from "./components/Navbar";
+import Welcome from "./components/Welcome";
+import PromptCards from "./components/PromptCards";
+import ChatArea from "./components/ChatArea";
+import ChatInput from "./components/ChatInput";
 
 import "../styles/chat.css";
 
@@ -21,9 +21,7 @@ export default function Chat() {
   const [loading, setLoading] = useState(false);
 
   const handleSendMessage = async (question: string) => {
-    if (!question.trim()) return;
-
-    // User message तुरुन्त UI मा देखाउने
+    // User को message तुरुन्त UI मा देखाउने
     const userMessage: Message = {
       id: Date.now(),
       sender: "user",
@@ -35,12 +33,16 @@ export default function Chat() {
     setLoading(true);
 
     try {
+      // Login गर्दा save भएको JWT निकाल्ने
       const token = localStorage.getItem("token");
 
+      console.log("Before axios");
+
+      // Backend call
       const response = await axios.post(
         "http://127.0.0.1:8000/chat",
         {
-          question,
+          question: question,
         },
         {
           headers: {
@@ -49,6 +51,9 @@ export default function Chat() {
         }
       );
 
+      console.log("After axios");
+      
+      // Backend बाट आएको उत्तर
       const botMessage: Message = {
         id: Date.now() + 1,
         sender: "assistant",
@@ -79,26 +84,21 @@ export default function Chat() {
       <main className="main-content">
         <Navbar />
 
-        <div className="chat-body">
-          {messages.length === 0 ? (
-            <>
-              <Welcome />
-              <PromptCards />
-            </>
-          ) : (
-            <>
-              <ChatArea messages={messages} />
+        <Welcome />
 
-              {loading && (
-                <p style={{ textAlign: "center", marginTop: "12px" }}>
-                  सोच्दैछु...
-                </p>
-              )}
-            </>
-          )}
-        </div>
+        <PromptCards />
 
-        <ChatInput onSendMessage={handleSendMessage} />
+        <ChatArea messages={messages} />
+
+        {loading && (
+          <p style={{ margin: "10px" }}>
+            सोच्दैछु...
+          </p>
+        )}
+
+        <ChatInput
+          onSendMessage={handleSendMessage}
+        />
       </main>
     </div>
   );
