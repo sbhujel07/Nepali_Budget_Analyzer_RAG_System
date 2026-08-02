@@ -29,6 +29,7 @@ export default function Login() {
   ) => {
     e.preventDefault();
 
+    //connect with the backend 
     try {
       const response = await axios.post(
         "http://127.0.0.1:8000/auth/login",
@@ -40,6 +41,13 @@ export default function Login() {
         "token",
         response.data.access_token
       );
+
+      // Save Username
+      localStorage.setItem(
+        "username",
+        response.data.user.name
+      );
+
 
       toast.success(response.data.message);
 

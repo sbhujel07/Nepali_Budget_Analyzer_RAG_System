@@ -3,7 +3,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.database.db_connection import get_db
 from app.database.tables import User 
 from app.database.schemas import UserCreate,UserOut,UserUpdate
+from app.services.jwt_handler import  get_current_user
 from sqlalchemy import select
+
 
 router = APIRouter(
     prefix="/user",
@@ -63,3 +65,15 @@ async def update_user(user_id: int,user_update:UserUpdate,db: AsyncSession = Dep
 
     return user
 
+
+
+#get me 
+@router.get("/me")
+async def get_me(
+    current_user: User = Depends(get_current_user)
+):
+    return {
+        "id": current_user.id,
+        "name": current_user.name,
+        "email": current_user.email,
+    }
