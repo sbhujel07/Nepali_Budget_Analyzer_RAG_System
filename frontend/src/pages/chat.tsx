@@ -20,6 +20,10 @@ export default function Chat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
 
+  const handleNewChat = () => {
+  setMessages([]);
+  };
+
   const handleSendMessage = async (question: string) => {
     if (!question.trim()) return;
 
@@ -74,8 +78,7 @@ export default function Chat() {
 
   return (
     <div className="chat-layout">
-      <Sidebar />
-
+      <Sidebar onNewChat={handleNewChat} />
       <main className="main-content">
         <Navbar />
 

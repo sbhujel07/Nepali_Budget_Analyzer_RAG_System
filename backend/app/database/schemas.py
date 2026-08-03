@@ -38,3 +38,17 @@ class ChatRequest(BaseModel):
 #output chat request
 class ChatResponse(BaseModel):
     answer: str
+
+
+#for user conversation
+class ConversationCreate(BaseModel):
+    title: str
+
+
+class ConversationResponse(BaseModel):
+    id: int
+    title: str
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
