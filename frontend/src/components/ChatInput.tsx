@@ -1,14 +1,16 @@
-import { useState } from "react";
 import { FiSend } from "react-icons/fi";
 
 interface ChatInputProps {
+  message: string;
+  setMessage: React.Dispatch<React.SetStateAction<string>>;
   onSendMessage?: (message: string) => void;
 }
 
 export default function ChatInput({
+  message,
+  setMessage,
   onSendMessage,
 }: ChatInputProps) {
-  const [message, setMessage] = useState("");
 
   const handleSubmit = (
     e: React.FormEvent<HTMLFormElement>
@@ -33,9 +35,7 @@ export default function ChatInput({
         type="text"
         placeholder="नेपालको वार्षिक बजेट सम्बन्धी प्रश्न सोध्नुहोस्..."
         value={message}
-        onChange={(e) =>
-          setMessage(e.target.value)
-        }
+        onChange={(e) => setMessage(e.target.value)}
       />
 
       <button type="submit">

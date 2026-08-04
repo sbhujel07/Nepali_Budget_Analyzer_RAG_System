@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 import Sidebar from "../components/Sidebar";
@@ -20,8 +20,44 @@ export default function Chat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
 
+  // Conversation state
+  const [conversationId, setConversationId] = useState<number | null>(null);
+
+  // Recent chats (later Sidebar मा पठाउने)
+  const [recentChats, setRecentChats] = useState<any[]>([]);
+
+  const [input, setInput] = useState("");
+
+
+  // Recent conversations fetch
+  const fetchRecentChats = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const response = await axios.get(
+        "http://127.0.0.1:8000/conversations",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setRecentChats(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // Page load हुँदा conversations load
+  useEffect(() => {
+    fetchRecentChats();
+  }, []);
+
+  // New Chat
   const handleNewChat = () => {
-  setMessages([]);
+    setMessages([]);
+    setConversationId(null);
   };
 
   const handleSendMessage = async (question: string) => {
@@ -41,6 +77,32 @@ export default function Chat() {
     try {
       const token = localStorage.getItem("token");
 
+      // Current conversation
+      let currentConversationId = conversationId;
+
+      // पहिलो प्रश्न भए मात्र Conversation create गर्ने
+      if (currentConversationId === null) {
+        const conversationResponse = await axios.post(
+          "http://127.0.0.1:8000/conversations",
+          {
+            title: question,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        currentConversationId = conversationResponse.data.id;
+
+        setConversationId(currentConversationId);
+
+        // Sidebar refresh को लागि
+        await fetchRecentChats();
+      }
+
+      // Chat API
       const response = await axios.post(
         "http://127.0.0.1:8000/chat",
         {
@@ -60,6 +122,7 @@ export default function Chat() {
       };
 
       setMessages((prev) => [...prev, botMessage]);
+
     } catch (error) {
       console.error(error);
 
@@ -78,15 +141,19 @@ export default function Chat() {
 
   return (
     <div className="chat-layout">
-      <Sidebar onNewChat={handleNewChat} />
+
+      <Sidebar onNewChat={handleNewChat} recentChats={recentChats}/>
+
       <main className="main-content">
+
         <Navbar />
 
         <div className="chat-body">
+
           {messages.length === 0 ? (
             <>
               <Welcome />
-              <PromptCards />
+              <PromptCards onPromptSelect={(prompt) =>  setInput(prompt)}/>
             </>
           ) : (
             <>
@@ -97,12 +164,15 @@ export default function Chat() {
                   सोच्दैछु...
                 </p>
               )}
+
             </>
           )}
-        </div>
 
-        <ChatInput onSendMessage={handleSendMessage} />
+        </div>
+        <ChatInput message={input}  setMessage={setInput} onSendMessage={handleSendMessage} />
+
       </main>
+
     </div>
   );
 }

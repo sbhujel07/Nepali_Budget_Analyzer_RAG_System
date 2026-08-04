@@ -3,21 +3,28 @@ import {
   FiPlus,
   FiBookOpen,
   FiSettings,
-  FiLogOut,
 } from "react-icons/fi";
+
+interface Conversation {
+  id: number;
+  title: string;
+}
 
 interface SidebarProps {
   onNewChat: () => void;
+  recentChats: Conversation[];
 }
 
 export default function Sidebar({
   onNewChat,
+  recentChats,
 }: SidebarProps) {
   return (
     <aside className="sidebar">
       {/* Logo */}
 
-      <div>
+      <div className="sidebar-content">
+        
         <div className="sidebar-header">
           <div className="logo">🇳🇵</div>
 
@@ -43,20 +50,23 @@ export default function Sidebar({
           <h4>Recent Chats</h4>
 
           <ul>
-            <li>
-              <FiMessageSquare />
-              <span>शिक्षा बजेट</span>
-            </li>
+            {recentChats.length === 0 ? (
+              <li>
+                <span>No conversations yet</span>
+              </li>
+            ) : (
+              recentChats.map((chat) => (
+                <li key={chat.id}>
+                  <FiMessageSquare />
 
-            <li>
-              <FiMessageSquare />
-              <span>स्वास्थ्य बजेट</span>
-            </li>
-
-            <li>
-              <FiMessageSquare />
-              <span>पूर्वाधार योजना</span>
-            </li>
+                  <span>
+                    {chat.title.length > 30
+                      ? chat.title.slice(0, 30) + "..."
+                      : chat.title}
+                  </span>
+                </li>
+              ))
+            )}
           </ul>
         </div>
 
@@ -85,11 +95,6 @@ export default function Sidebar({
         <button className="sidebar-btn">
           <FiSettings />
           <span>Settings</span>
-        </button>
-
-        <button className="sidebar-btn logout">
-          <FiLogOut />
-          <span>Logout</span>
         </button>
       </div>
     </aside>

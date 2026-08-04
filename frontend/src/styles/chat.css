@@ -45,6 +45,12 @@
   margin-bottom: 24px;
 }
 
+.sidebar-content {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
 .logo {
   width: 54px;
   height: 54px;
@@ -154,6 +160,8 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+
+  flex-shrink: 0;
 }
 
 .sidebar-btn {
@@ -184,6 +192,25 @@
 
 .logout {
   color: #ffb4b4;
+}
+
+
+.sidebar-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar-content::-webkit-scrollbar-thumb {
+  background: #374151;
+  border-radius: 10px;
+}
+
+.sidebar-content::-webkit-scrollbar-thumb:hover {
+  background: #4b5563;
+}
+
+.sidebar-content {
+    flex: 1;
+    overflow-y: auto;
 }
 
 /* ===========================
