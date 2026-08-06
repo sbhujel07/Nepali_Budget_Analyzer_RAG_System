@@ -10,6 +10,9 @@ from app.api.users import router as user_router
 from app.api.conversation import router as conversation_router
 from app.api.auth import signup_user,login_user
 from app.database.schemas import UserCreate
+from fastapi.exceptions import RequestValidationError
+from starlette.exceptions import HTTPException
+from app.core.exception_handler import http_exception_handler,validation_exception_handler,global_exception_handler
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -45,6 +48,14 @@ app.include_router(chat_router)
 
 #conversation history router
 app.include_router(conversation_router)
+
+
+#Exception handler
+app.add_exception_handler(HTTPException,http_exception_handler)
+
+app.add_exception_handler(RequestValidationError,validation_exception_handler)
+
+app.add_exception_handler(Exception,global_exception_handler)
 
 
 
