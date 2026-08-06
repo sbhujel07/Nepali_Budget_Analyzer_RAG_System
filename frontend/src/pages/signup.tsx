@@ -42,9 +42,14 @@ export default function Signup() {
     }, 2000);
 
   } catch (error: any) {
-    toast.error(
-      error.response?.data?.detail || "Signup failed"
-    );
+      if (error.response) {
+        const message =
+          error.response.data.message || "Something went wrong";
+
+        toast.error(message);
+      } else {
+        toast.error("Network Error");
+      }
   }
 };
   return (

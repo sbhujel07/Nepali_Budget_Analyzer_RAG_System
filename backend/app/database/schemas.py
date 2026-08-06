@@ -20,9 +20,9 @@ class UserUpdate(BaseModel):
 
 # Signup Request
 class SignupRequest(BaseModel):
-    name: str
+    name: str = Field(min_length=3,max_length=50)
     email: EmailStr
-    password: str
+    password: str = Field(min_length=8)
 
 
 # Login Request
