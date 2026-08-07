@@ -1,7 +1,8 @@
-import axios from "axios";
+import api from "../api/axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { handleApiError } from "../utils/hanle_api_errors";
 import toast from "react-hot-toast";
 import "../styles/auth.css";
 
@@ -26,8 +27,8 @@ export default function Signup() {
   }
 
   try {
-    const response = await axios.post(
-      "http://localhost:8000/auth/signup",
+    const response = await api.post(
+      "/auth/signup",
       {
         name: formData.name,
         email: formData.email,
@@ -41,15 +42,8 @@ export default function Signup() {
       navigate("/login");
     }, 2000);
 
-  } catch (error: any) {
-      if (error.response) {
-        const message =
-          error.response.data.message || "Something went wrong";
-
-        toast.error(message);
-      } else {
-        toast.error("Network Error");
-      }
+  } catch (error) {
+      handleApiError(error);
   }
 };
   return (

@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { handleApiError } from "../utils/hanle_api_errors";
 import toast from "react-hot-toast";
-import axios from "axios";
+import api from "../api/axios";
 import "../styles/auth.css";
 
 export default function Login() {
@@ -14,6 +15,21 @@ export default function Login() {
     email: "",
     password: "",
   });
+
+
+  useEffect(() => {
+
+  const params = new URLSearchParams(window.location.search);
+
+  if (params.get("expired")) {
+
+    toast.error("Session expired. Please login again.");
+
+    window.history.replaceState({}, "", "/login");
+
+  }
+
+  }, []);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>
@@ -31,8 +47,8 @@ export default function Login() {
 
     //connect with the backend 
     try {
-      const response = await axios.post(
-        "http://127.0.0.1:8000/auth/login",
+      const response = await api.post(
+        "/auth/login",
         formData
       );
 
@@ -55,11 +71,8 @@ export default function Login() {
         navigate("/chat");
       }, 1500);
 
-    } catch (error: any) {
-      toast.error(
-        error.response?.data?.detail ||
-        "Login failed"
-      );
+    } catch (error) {
+      handleApiError(error);
     }
   };
 

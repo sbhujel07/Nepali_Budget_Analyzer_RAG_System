@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
-
+import api from  "../api/axios";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import Welcome from "../components/Welcome";
 import PromptCards from "../components/PromptCards";
 import ChatArea from "../components/ChatArea";
 import ChatInput from "../components/ChatInput";
-
+import { handleApiError } from "../utils/hanle_api_errors";
 import "../styles/chat.css";
 
 interface Message {
@@ -32,20 +31,13 @@ export default function Chat() {
   // Recent conversations fetch
   const fetchRecentChats = async () => {
     try {
-      const token = localStorage.getItem("token");
-
-      const response = await axios.get(
-        "http://127.0.0.1:8000/conversations",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+      const response = await api.get(
+        "/conversations",
       );
 
       setRecentChats(response.data);
     } catch (error) {
-      console.error(error);
+      handleApiError(error);
     }
   };
 
@@ -75,23 +67,17 @@ export default function Chat() {
     setLoading(true);
 
     try {
-      const token = localStorage.getItem("token");
 
       // Current conversation
       let currentConversationId = conversationId;
 
       // पहिलो प्रश्न भए मात्र Conversation create गर्ने
       if (currentConversationId === null) {
-        const conversationResponse = await axios.post(
-          "http://127.0.0.1:8000/conversations",
+        const conversationResponse = await api.post(
+          "/conversations",
           {
             title: question,
           },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
         );
 
         currentConversationId = conversationResponse.data.id;
@@ -103,16 +89,11 @@ export default function Chat() {
       }
 
       // Chat API
-      const response = await axios.post(
-        "http://127.0.0.1:8000/chat",
+      const response = await api.post(
+        "/chat",
         {
           question,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
       );
 
       const botMessage: Message = {
@@ -124,7 +105,7 @@ export default function Chat() {
       setMessages((prev) => [...prev, botMessage]);
 
     } catch (error) {
-      console.error(error);
+      handleApiError(error);
 
       setMessages((prev) => [
         ...prev,
