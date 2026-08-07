@@ -2,6 +2,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.database.schemas import SignupRequest,LoginRequest
 from app.database.hashing import hashed_password,verify_password
 from app.services.jwt_handler import create_access_token
+from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 from app.database.tables import User
 from sqlalchemy import select
 from fastapi import HTTPException
@@ -25,13 +26,30 @@ async def signup_user(request: SignupRequest, db: AsyncSession):
 
     new_user = User(name=request.name,email=request.email,hashed_password=hash_password)
     #save to db
-    db.add(new_user)
-    await db.commit()
-    await db.refresh(new_user)
+    try:
+        db.add(new_user)
+        await db.commit()
+        await db.refresh(new_user)
 
-    return {
-        "message": "User created successfully"
-    }
+        return {
+            "message": "User created successfully"
+        }
+    #exception for rece condition
+    except IntegrityError:
+        await db.rollback()
+
+        raise HTTPException(
+            status_code=409,
+            detail="This email is already registered"
+        )
+    #for the database error -> sometimes  occured due to sql connection
+    except SQLAlchemyError:
+        await db.rollback()
+
+        raise HTTPException(
+            status_code=500,
+            detail="Database error occured"
+        )
 
 async def login_user(request: LoginRequest,db: AsyncSession):
     #verify email from user and select all if email is already signup
