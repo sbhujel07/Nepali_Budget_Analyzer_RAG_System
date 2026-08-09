@@ -4,7 +4,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { handleApiError } from "../utils/hanle_api_errors";
 import toast from "react-hot-toast";
 import api from "../api/axios";
-import "../styles/auth.css";
+import "../styles/Auth.css";
 
 export default function Login() {
   const navigate = useNavigate();

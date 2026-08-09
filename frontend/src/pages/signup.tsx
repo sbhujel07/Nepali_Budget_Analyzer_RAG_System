@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { handleApiError } from "../utils/hanle_api_errors";
 import toast from "react-hot-toast";
-import "../styles/auth.css";
+import "../styles/Auth.css";
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -43,7 +43,7 @@ export default function Signup() {
     }, 2000);
 
   } catch (error) {
-      handleApiError(error);
+    handleApiError(error);
   }
 };
   return (
