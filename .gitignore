@@ -38,6 +38,9 @@ datasets/
 !frontend/package-lock.json
 !backend/package.json
 !backend/package-lock.json
+!frontend/tsconfig.json
+!frontend/tsconfig.app.json
+!frontend/tsconfig.node.json
 
 # keep sample data
 !data/sample.csv
