@@ -23,6 +23,8 @@ env/
 # ----------------------------
 # 🔹 Jupyter Notebook
 # ----------------------------
+# Jupyter notebooks
+*.ipynb
 .ipynb_checkpoints/
 
 # ----------------------------
