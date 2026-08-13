@@ -22,6 +22,7 @@ app.add_middleware(
     CORSMiddleware,
     #for frontend request
     allow_origins =  "http://localhost:5173",
+                    "https://nepali-budget-analyzer-rag-system.vercel.app",
                    
     #for cookies and all
     allow_credentials = True,
