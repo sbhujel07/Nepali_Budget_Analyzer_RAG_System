@@ -43,7 +43,6 @@ datasets/
 !frontend/tsconfig.json
 !frontend/tsconfig.app.json
 !frontend/tsconfig.node.json
-!frontend/vercel.json
 
 # keep sample data
 !data/sample.csv
