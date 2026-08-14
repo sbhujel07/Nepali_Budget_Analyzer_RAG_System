@@ -74,6 +74,5 @@ def download_indexes():
     print(f"\nDownloaded {downloaded} index files.")
     print(f"Indexes location: {INDEX_DIR}")
 
-
 if __name__ == "__main__":
     download_indexes()
