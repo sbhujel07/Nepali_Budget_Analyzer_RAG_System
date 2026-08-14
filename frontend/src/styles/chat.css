@@ -975,35 +975,35 @@
 /* =========================================
    MOBILE RESPONSIVE
    ========================================= */
-
 @media (max-width: 768px) {
+  .chat-layout {
+    width: 100%;
+    min-width: 0;
+  }
 
-  /* Sidebar hidden by default */
   .chat-layout .sidebar {
     position: fixed;
-    left: -320px;
     top: 0;
+    left: -100%;
+    width: 280px;
     height: 100vh;
     z-index: 1001;
 
     transition: left 0.3s ease;
   }
 
-  /* Sidebar open */
   .chat-layout.sidebar-open .sidebar {
     left: 0;
   }
 
-  /* Main content takes full screen */
   .chat-layout .main-content {
     width: 100%;
+    min-width: 0;
     margin-left: 0;
   }
 
-  /* Hamburger */
   .mobile-menu-btn {
     display: flex;
-
     position: fixed;
     top: 15px;
     left: 15px;
@@ -1021,16 +1021,13 @@
     color: white;
 
     font-size: 22px;
-
     cursor: pointer;
 
     z-index: 1003;
   }
 
-  /* Dark background when sidebar opens */
-  .chat-layout.sidebar-open .sidebar-overlay {
+  .sidebar-overlay {
     display: block;
-
     position: fixed;
     inset: 0;
 
@@ -1039,11 +1036,11 @@
     z-index: 1000;
   }
 
-  /* Mobile chat body */
   .chat-body {
     width: 100%;
-    padding-left: 16px;
-    padding-right: 16px;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding-left: 12px;
+    padding-right: 12px;
   }
-
 }

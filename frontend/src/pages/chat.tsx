@@ -19,8 +19,10 @@ export default function Chat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
 
+  // Conversation state
   const [conversationId, setConversationId] = useState<number | null>(null);
 
+  // Recent chats
   const [recentChats, setRecentChats] = useState<any[]>([]);
 
   const [input, setInput] = useState("");
@@ -31,7 +33,9 @@ export default function Chat() {
   // Recent conversations fetch
   const fetchRecentChats = async () => {
     try {
-      const response = await api.get("/conversations");
+      const response = await api.get(
+        "/conversations",
+      );
 
       setRecentChats(response.data);
     } catch (error) {
@@ -49,13 +53,14 @@ export default function Chat() {
     setMessages([]);
     setConversationId(null);
 
-    // Mobile मा new chat click गरेपछि sidebar बन्द
+    // Mobile मा sidebar बन्द
     setSidebarOpen(false);
   };
 
   const handleSendMessage = async (question: string) => {
     if (!question.trim()) return;
 
+    // User message तुरुन्त UI मा देखाउने
     const userMessage: Message = {
       id: Date.now(),
       sender: "user",
@@ -67,8 +72,11 @@ export default function Chat() {
     setLoading(true);
 
     try {
+
+      // Current conversation
       let currentConversationId = conversationId;
 
+      // पहिलो प्रश्न भए मात्र Conversation create गर्ने
       if (currentConversationId === null) {
         const conversationResponse = await api.post(
           "/conversations",
@@ -81,9 +89,11 @@ export default function Chat() {
 
         setConversationId(currentConversationId);
 
+        // Sidebar refresh को लागि
         await fetchRecentChats();
       }
 
+      // Chat API
       const response = await api.post(
         "/chat",
         {
@@ -121,8 +131,8 @@ export default function Chat() {
       {/* Mobile hamburger button */}
       <button
         className="mobile-menu-btn"
-        onClick={() => setSidebarOpen(true)}
-        aria-label="Open sidebar"
+        onClick={() => setSidebarOpen((prev) => !prev)}
+        aria-label="Toggle sidebar"
       >
         ☰
       </button>
@@ -149,7 +159,6 @@ export default function Chat() {
           {messages.length === 0 ? (
             <>
               <Welcome />
-
               <PromptCards
                 onPromptSelect={(prompt) => setInput(prompt)}
               />
@@ -159,15 +168,11 @@ export default function Chat() {
               <ChatArea messages={messages} />
 
               {loading && (
-                <p
-                  style={{
-                    textAlign: "center",
-                    marginTop: "12px",
-                  }}
-                >
+                <p style={{ textAlign: "center", marginTop: "12px" }}>
                   सोच्दैछु...
                 </p>
               )}
+
             </>
           )}
 
