@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import api from  "../api/axios";
+import api from "../api/axios";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import Welcome from "../components/Welcome";
@@ -19,21 +19,19 @@ export default function Chat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
 
-  // Conversation state
   const [conversationId, setConversationId] = useState<number | null>(null);
 
-  // Recent chats (later Sidebar मा पठाउने)
   const [recentChats, setRecentChats] = useState<any[]>([]);
 
   const [input, setInput] = useState("");
 
+  // Mobile sidebar state
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Recent conversations fetch
   const fetchRecentChats = async () => {
     try {
-      const response = await api.get(
-        "/conversations",
-      );
+      const response = await api.get("/conversations");
 
       setRecentChats(response.data);
     } catch (error) {
@@ -50,12 +48,14 @@ export default function Chat() {
   const handleNewChat = () => {
     setMessages([]);
     setConversationId(null);
+
+    // Mobile मा new chat click गरेपछि sidebar बन्द
+    setSidebarOpen(false);
   };
 
   const handleSendMessage = async (question: string) => {
     if (!question.trim()) return;
 
-    // User message तुरुन्त UI मा देखाउने
     const userMessage: Message = {
       id: Date.now(),
       sender: "user",
@@ -67,11 +67,8 @@ export default function Chat() {
     setLoading(true);
 
     try {
-
-      // Current conversation
       let currentConversationId = conversationId;
 
-      // पहिलो प्रश्न भए मात्र Conversation create गर्ने
       if (currentConversationId === null) {
         const conversationResponse = await api.post(
           "/conversations",
@@ -84,11 +81,9 @@ export default function Chat() {
 
         setConversationId(currentConversationId);
 
-        // Sidebar refresh को लागि
         await fetchRecentChats();
       }
 
-      // Chat API
       const response = await api.post(
         "/chat",
         {
@@ -121,9 +116,29 @@ export default function Chat() {
   };
 
   return (
-    <div className="chat-layout">
+    <div className={`chat-layout ${sidebarOpen ? "sidebar-open" : ""}`}>
 
-      <Sidebar onNewChat={handleNewChat} recentChats={recentChats}/>
+      {/* Mobile hamburger button */}
+      <button
+        className="mobile-menu-btn"
+        onClick={() => setSidebarOpen(true)}
+        aria-label="Open sidebar"
+      >
+        ☰
+      </button>
+
+      {/* Mobile overlay */}
+      {sidebarOpen && (
+        <div
+          className="sidebar-overlay"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
+      <Sidebar
+        onNewChat={handleNewChat}
+        recentChats={recentChats}
+      />
 
       <main className="main-content">
 
@@ -134,23 +149,35 @@ export default function Chat() {
           {messages.length === 0 ? (
             <>
               <Welcome />
-              <PromptCards onPromptSelect={(prompt) =>  setInput(prompt)}/>
+
+              <PromptCards
+                onPromptSelect={(prompt) => setInput(prompt)}
+              />
             </>
           ) : (
             <>
               <ChatArea messages={messages} />
 
               {loading && (
-                <p style={{ textAlign: "center", marginTop: "12px" }}>
+                <p
+                  style={{
+                    textAlign: "center",
+                    marginTop: "12px",
+                  }}
+                >
                   सोच्दैछु...
                 </p>
               )}
-
             </>
           )}
 
         </div>
-        <ChatInput message={input}  setMessage={setInput} onSendMessage={handleSendMessage} />
+
+        <ChatInput
+          message={input}
+          setMessage={setInput}
+          onSendMessage={handleSendMessage}
+        />
 
       </main>
 
