@@ -9,7 +9,9 @@ export const handleApiError = (error: unknown) => {
     if (error.response) {
 
       toast.error(
-        error.response.data?.message || "Something went wrong."
+        error.response.data?.message ||
+        error.response.data?.detail ||
+        "Something went wrong."
       );
 
       return;
