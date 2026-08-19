@@ -16,6 +16,7 @@ The system combines topic detection, BM25 keyword retrieval, FAISS semantic sear
 
 ## 🏗️ System Architecture
 
+                         ```text
                          ┌──────────────────┐
                          │      User        │
                          └────────┬─────────┘
@@ -34,40 +35,40 @@ The system combines topic detection, BM25 keyword retrieval, FAISS semantic sear
                                   │
                     ┌─────────────┴─────────────┐
                     ▼                           ▼
-            ┌───────────────┐           ┌───────────────┐
-            │ Topic         │           │ Authentication │
-            │ Detection     │           │     / JWT      │
-            └───────┬───────┘           └───────────────┘
-                    │
-                    ▼
-             ┌──────────────┐
-             │ Hybrid Search│
-             └──────┬───────┘
-                    │
-          ┌─────────┴─────────┐
-          ▼                   ▼
-   ┌─────────────┐     ┌─────────────┐
-   │    BM25     │     │    FAISS    │
-   │  Retrieval  │     │  Retrieval  │
-   └──────┬──────┘     └──────┬──────┘
-          │                   │
-          └─────────┬─────────┘
-                    ▼
-             ┌──────────────┐
-             │ Top Relevant │
-             │   Context    │
-             └──────┬───────┘
-                    │
-                    ▼
-             ┌──────────────┐
-             │   Groq LLM   │
-             └──────┬───────┘
-                    │
-                    ▼
-             ┌──────────────┐
-             │ Final Answer │
-             └──────────────┘
-
+             ┌───────────────┐           ┌───────────────┐
+             │ Topic         │           │ Authentication │
+             │ Detection     │           │     / JWT     │
+             └───────┬───────┘           └───────────────┘
+                     │
+                     ▼
+             ┌────────────────┐
+             │  Hybrid Search │
+             └───────┬────────┘
+                     │
+             ┌───────┴────────┐
+             ▼                ▼
+      ┌─────────────┐   ┌─────────────┐
+      │    BM25     │   │    FAISS    │
+      │  Retrieval  │   │  Retrieval  │
+      └──────┬──────┘   └──────┬──────┘
+             │                 │
+             └────────┬────────┘
+                      ▼
+             ┌──────────────────┐
+             │  Top Relevant    │
+             │     Context      │
+             └────────┬─────────┘
+                      │
+                      ▼
+             ┌──────────────────┐
+             │     Groq LLM     │
+             └────────┬─────────┘
+                      │
+                      ▼
+             ┌──────────────────┐
+             │   Final Answer   │
+             └──────────────────┘
+```
 ---
 
 ## ✨ Features
@@ -393,14 +394,14 @@ Example user query:
 शिक्षा क्षेत्रमा सरकारले कति बजेट छुट्याएको छ?
 
 The system processes the request as follows:
-
+```text
 User Query
     │
     ▼
 Topic Detection
     │
     ▼
-शिक्षा
+   शिक्षा
     │
     ├───────────────┐
     ▼               ▼
@@ -419,6 +420,7 @@ Topic Detection
             │
             ▼
       Final Nepali Answer
+```
 
 ---
 
