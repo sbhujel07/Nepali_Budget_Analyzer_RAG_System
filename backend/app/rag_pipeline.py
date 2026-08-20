@@ -8,11 +8,6 @@ from app.llm.groq_llm import llm
 def rag_pipeline(user_query,session_id):
     retrieved_chunks = hybrid_search(user_query)
 
-
-    print("\n========== RETRIEVED CHUNKS ==========")
-    print(retrieved_chunks)
-    print("======================================\n")
-
     prompt = prompt_formatter(user_query,retrieved_chunks)
 
     print("\n========== FINAL PROMPT ==========")
