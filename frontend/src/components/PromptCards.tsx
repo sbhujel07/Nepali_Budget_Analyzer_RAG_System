@@ -1,7 +1,7 @@
 import {
-  FiBookOpen,
+  FiMap,
   FiHeart,
-  FiTruck,
+  FiSun,
   FiDollarSign,
 } from "react-icons/fi";
 
@@ -19,16 +19,16 @@ export default function PromptCards({
         className="prompt-card"
         onClick={() =>{
           onPromptSelect(
-            "शिक्षा क्षेत्रमा कति बजेट विनियोजन गरिएको छ?"
+            "नेपालको प्रति व्यक्ति राष्ट्रिय आय कति पुगेको छ?"
           )
         }}
       >
-        <FiBookOpen className="card-icon" />
+        <FiDollarSign className="card-icon" />
 
-        <h3>शिक्षा</h3>
+        <h3>अर्थतन्त्र</h3>
 
         <p>
-          शिक्षा क्षेत्रमा कति बजेट विनियोजन गरिएको छ?
+          नेपालको प्रति व्यक्ति राष्ट्रिय आय कति पुगेको छ?
         </p>
       </div>
 
@@ -53,16 +53,16 @@ export default function PromptCards({
         className="prompt-card"
         onClick={() =>
           onPromptSelect(
-            "पूर्वाधार विकासका लागि कति बजेट विनियोजन गरिएको छ?"
+            "पर्यटन क्षेत्रका लागि कति बजेट विनियोजन गरिएको छ?"
           )
         }
       >
-        <FiTruck className="card-icon" />
+        <FiMap className="card-icon" />
 
-        <h3>पूर्वाधार</h3>
+        <h3>पर्यटन </h3>
 
         <p>
-          पूर्वाधार विकासका लागि कति बजेट विनियोजन गरिएको छ?
+          पर्यटन क्षेत्रका लागि कति बजेट विनियोजन गरिएको छ?
         </p>
       </div>
 
@@ -70,16 +70,16 @@ export default function PromptCards({
         className="prompt-card"
         onClick={() =>
           onPromptSelect(
-            "नेपालको प्रमुख राजस्वका स्रोतहरू के–के हुन्?"
+            "कृषि क्षेत्रको विकासका लागि सरकारले के योजना अघि सारेको छ?"
           )
         }
       >
-        <FiDollarSign className="card-icon" />
+        <FiSun className="card-icon" />
 
-        <h3>राजस्व</h3>
+        <h3>कृषि</h3>
 
         <p>
-          नेपालको प्रमुख राजस्वका स्रोतहरू के–के हुन्?
+          कृषि क्षेत्रको विकासका लागि सरकारले के योजना अघि सारेको छ?
         </p>
       </div>
 
