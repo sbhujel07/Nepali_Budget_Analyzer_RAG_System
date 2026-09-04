@@ -29,7 +29,7 @@ if not openai_api_key:
 
 llm = ChatOpenAI(
     model="gpt-5.4",
-    temperature=0.1,
+    temperature=0.0,
     api_key=openai_api_key,
     base_url=base_url,
     max_retries=0,
