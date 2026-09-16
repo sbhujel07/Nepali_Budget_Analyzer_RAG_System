@@ -28,7 +28,7 @@ if not openai_api_key:
     raise ValueError("OPENAI_API_KEY is missing")
 
 llm = ChatOpenAI(
-    model="gpt-5.4",
+    model="gpt-5.5",
     temperature=0.0,
     api_key=openai_api_key,
     base_url=base_url,
